@@ -1,5 +1,5 @@
 # modifier-api
-A CC Mod Developer API that makes adding custom modifiers a bit easier. This mod was initially created to help multiple mods implementing custom damage modifiers to not override each other's code.
+A CC mod developer API that makes adding custom modifiers a bit easier. This mod was initially created to help multiple mods implementing custom damage modifiers to not override each other's code.
 
 Currently, this mod handles:
 * the visual representation of custom modifiers
