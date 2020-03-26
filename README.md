@@ -4,6 +4,7 @@ A CC mod developer API that makes adding custom modifiers a bit easier. This mod
 Currently, this mod handles:
 * the visual representation of custom modifiers
 * the application of damage modifiers (in `sc.CombatParams`)
+* custom status effect bars
 
 More documentation to be added in the future.
 
