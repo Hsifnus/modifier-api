@@ -1,4 +1,4 @@
-ig.module("game.feature.player.modifier-apply").requires(
+ig.module("game.feature.combat.model.modifier-apply").requires(
     "game.feature.combat.model.combat-params").defines(function() {
         var b = Vec2.create(),
             a = Vec2.create(),
