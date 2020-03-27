@@ -1,4 +1,4 @@
-ig.module("game.feature.player.modifier-gui").requires(
+ig.module("game.feature.combat.model.modifier-gui").requires(
     "game.feature.menu.gui.item.item-status-equip",
     "game.feature.menu.gui.menu-misc",
     "game.feature.menu.gui.status.status-misc").defines(function() {

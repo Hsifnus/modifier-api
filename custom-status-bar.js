@@ -1,6 +1,8 @@
 ig.module("game.feature.combat.gui.custom-status-bar").requires(
     "game.feature.combat.gui.status-bar").defines(function() {
     	var a = {};
+    	// default neutral status is null
+    	!sc.COMBAT_STATUS[4] && (sc.COMBAT_STATUS[4] = null);
 		ig.GUI.StatusBar.inject({
 			customGfxCache: {},
             drawStatusEntry: function(b, c, e, f) {
