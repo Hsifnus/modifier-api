@@ -17,7 +17,7 @@ ig.module("game.feature.combat.gui.custom-status-bar").requires(
                 if (f.gfx) {
                 	var cache = this.customGfxCache;
                 	!cache[f.gfx] && (cache[f.gfx] = new ig.Image(f.gfx));
-                    if (g.stick) b.addGfx(cache[f.gfx], c - 6, e - 2, 24, 0, 8, 8);
+                    if (g.stick) b.addGfx(cache[f.gfx], c - 6, e - 2, f.iconX || 24, f.iconY || 0, 8, 8);
                     else {
                         if (g.timer > 1.7) var l =
                             Math.sin(Math.PI * 8 * (2 - g.timer) / 0.3),
