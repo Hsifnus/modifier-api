@@ -40,7 +40,7 @@ sc.DAMAGE_MODIFIER_FUNCS.TOXIC_HAZARD = (attackInfo, damageFactor, combatantRoot
     // RETURN VALUE: An object containing the following parameters:
     // attackInfo: Modified instance of sc.AttackInfo.
     // damageFactor: Modified version of damageFactor argument.
-    // applyDamageCallback: Zero-argument function to be called during the applyDamage function for this entity.
+    // applyDamageCallback: Zero-argument function to be called during the applyDamage function for this entity. Nullable.
     
     var l = attackInfo.noHack || false,
         r = attackInfo.attackerParams.getStat("focus", l) / params.getStat("focus", l),
