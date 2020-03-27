@@ -103,3 +103,4 @@ var poisonIdx = sc.COMBAT_STATUS.push(sc.PoisonStatus) - 1;
 ```
 
 More features to be added according to developer need.
+* TODO: Port font system override and modifier art functionality from Autumn's Genesis
