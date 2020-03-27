@@ -74,6 +74,7 @@ sc.STATUS_BAR_ENTRY.MY_CUSTOM_STATUS = {
     half: true // This is set to true for status bars
 }
 ```
+* Custom status effects
   * Likewise, to add a custom status effect, define `sc.COMBAT_STATUS[4]` if you want the custom status effect to be applied to Neutral attacks. Otherwise, define the status effect class first before pushing it onto `sc.COMBAT_STATUS`. If doing the latter, make sure to add the `"game.feature.combat.gui.custom-status-bar"` requirement to the `ig.module` definition in the script adding the custom status effect. An example from the same fork of ArcaneLab is shown below:
 ```
 sc.PoisonStatus = sc.CombatStatusBase.extend({
