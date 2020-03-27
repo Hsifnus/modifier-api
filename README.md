@@ -13,8 +13,10 @@ sc.MODIFIERS.MY_CUSTOM_MODIFIER = {
     offX: 0, // Adjust this to whatever x pixel offset your icon starts at
     offY: 0, // Adjust this to whatever y pixel offset your icon starts at
     icon: -1, // This is always -1, to signal the game to use altSheet for the icon
-    order: 100, // Adjust this to wherever you feel the modifier should lie when ordered among other modifiers
-    noPercent: false // Set this to true if you want to implement a modifier that does not use percents (ex. Riposte)
+    order: 100, // Adjust this to wherever you feel the modifier should lie
+                // when ordered among other modifiers
+    noPercent: false // Set this to true if you want to implement a modifier
+                     // that does not use percents (ex. Riposte)
 };
 ```
 * The application of damage modifiers (in `sc.CombatParams`)
@@ -25,13 +27,15 @@ sc.MODIFIERS.MY_CUSTOM_MODIFIER = {
 var aConst = 0.25,
     dConst = 1.5,
     cConst = 3;
-sc.DAMAGE_MODIFIER_FUNCS.TOXIC_HAZARD = (attackInfo, damageFactor, combatantRoot, shieldResult, hitIgnore, params) => {
+sc.DAMAGE_MODIFIER_FUNCS.TOXIC_HAZARD = (attackInfo, damageFactor, combatantRoot, shieldResult,
+    hitIgnore, params) => {
     // PARAMETERS:
     // attackInfo: Instance of sc.AttackInfo, containing various information
     //     about the attack hitting this entity as well as the attacker.
     // damageFactor: A numerical measure of the strength of the attack hitting this entity.
     //     Most damage modifiers directly modify this value.
-    // combatantRoot: The instance of sc.Combatant that spawned this attack, whether directly or via proxy.
+    // combatantRoot: The instance of sc.Combatant that spawned this attack,
+    //     whether directly or via proxy.
     // shieldResult: Type of blocking this entity performed against this attack.
     //     Supported types are found in sc.SHIELD_RESULT.
     // hitIgnore: Whether this entity is ignoring hits or not.
@@ -40,7 +44,8 @@ sc.DAMAGE_MODIFIER_FUNCS.TOXIC_HAZARD = (attackInfo, damageFactor, combatantRoot
     // RETURN VALUE: An object containing the following parameters:
     // attackInfo: Modified instance of sc.AttackInfo.
     // damageFactor: Modified version of damageFactor argument.
-    // applyDamageCallback: Zero-argument function to be called during the applyDamage function for this entity. Nullable.
+    // applyDamageCallback: Zero-argument function to be called during the applyDamage
+    //     function for this entity. Nullable.
     
     var l = attackInfo.noHack || false,
         r = attackInfo.attackerParams.getStat("focus", l) / params.getStat("focus", l),
@@ -51,7 +56,8 @@ sc.DAMAGE_MODIFIER_FUNCS.TOXIC_HAZARD = (attackInfo, damageFactor, combatantRoot
     q && (p = params.getStat("elemFactor")[q - 1] * params.tmpElemFactor[q - 1]);
     var pppm = r * attackInfo.attackerParams.getModifier("TOXIC_HAZARD") * p;
     // poisonIdx is defined in a later example
-    if (pppm > 0) pppm = params.statusStates[poisonIdx].getInflictValue(pppm, params, attackInfo, shieldResult);
+    if (pppm > 0) pppm = params.statusStates[poisonIdx]
+        .getInflictValue(pppm, params, attackInfo, shieldResult);
     var applyDamageCallback = () => {
         pppm && params.statusStates[poisonIdx].inflict(pppm, params, attackInfo);
     };
@@ -81,7 +87,8 @@ sc.PoisonStatus = sc.CombatStatusBase.extend({
     id: 0, // Status effect ID, used to fetch from status effectiveness data
     label: "poison", // Label used to fetch appropriate translation from ig.lang
     statusBarEntry: "POISONED", // Entry of sc.STATUS_BAR_ENTRY to which this status corresponds to
-    offenseModifier: "TOXIC_HAZARD", // Modifier that alters effectiveness of inflicting this status effect
+    offenseModifier: "TOXIC_HAZARD", // Modifier that alters effectiveness of
+                                     // inflicting this status effect
     defenseModifier: null, // Modifier that alters resistance to this status effect
     duration: 20, // How long this status effect lasts once inflicted
     poisonTimer: 0, // Custom parameter defined for this example
@@ -91,7 +98,8 @@ sc.PoisonStatus = sc.CombatStatusBase.extend({
             ig.system.ingameTick;
         if ((!b.getCombatantRoot()
                 .isPlayer || !sc.model.isCutscene()) && this.poisonTimer > 0.5) {
-            var d = Math.floor(a.getStat("hp") * (0.3 / (this.duration / 0.5)) * this.getEffectiveness(a));
+            var d = Math.floor(a.getStat("hp") * (0.3 / (this.duration / 0.5))
+                * this.getEffectiveness(a));
             b.instantDamage(d, 0.5);
             this.effects.spawnOnTarget("burnDamage", b);
             this.poisonTimer = 0
