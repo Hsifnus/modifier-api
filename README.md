@@ -50,7 +50,7 @@ sc.DAMAGE_MODIFIER_FUNCS.TOXIC_HAZARD = (attackInfo, damageFactor, combatantRoot
         q = attackInfo.element;
     q && (p = params.getStat("elemFactor")[q - 1] * params.tmpElemFactor[q - 1]);
     var pppm = r * attackInfo.attackerParams.getModifier("TOXIC_HAZARD") * p;
-    // poisonIdx is defined in the next example below
+    // poisonIdx is defined in a later example
     if (pppm > 0) pppm = params.statusStates[poisonIdx].getInflictValue(pppm, params, attackInfo, shieldResult);
     var applyDamageCallback = () => {
         pppm && params.statusStates[poisonIdx].inflict(pppm, params, attackInfo);
