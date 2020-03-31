@@ -84,7 +84,7 @@ ig.module("game.feature.combat.model.modifier-apply").requires(
                 if (idx >= 0) {
                     m = m * r * this.getStat("statusInflict")[idx] * this.tmpStatusInflict[idx] * p;
                     m = this.statusStates[idx].getInflictValue(m, this, e, i);
-                } else if (this.statusStates[4]) {
+                } else if (this.statusStates[4].id != -1) {
                     m = m * r * p;
                     m = this.statusStates[4].getInflictValue(m, this, e, i);
                 }
@@ -123,9 +123,8 @@ ig.module("game.feature.combat.model.modifier-apply").requires(
                         0);
                     c.damageCeiling.sum[d] = c.damageCeiling.sum[d] + a.baseOffensiveFactor
                 }
-                a.status
-                    && (idx = !!b.element ? b.element - 1 : 4)
-                    && this.statusStates[idx] && this.statusStates[idx].inflict(a.status, this, b);
+                var idx = !!b.element ? b.element - 1 : 4;
+                a.status && this.statusStates[idx] && this.statusStates[idx].inflict(a.status, this, b);
                 if (a.callbacks) {
                     a.callbacks.forEach(a => a());
                 }
