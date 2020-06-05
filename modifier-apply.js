@@ -54,9 +54,9 @@ ig.module("game.feature.combat.model.modifier-apply").requires(
                         (o.isPlayer && !this.combatant.isPlayer && sc.newgame.get("sergey-hax")) && (k = k * 4096);
                     var modFunc, modResult;
                     for (modFunc in sc.DAMAGE_MODIFIER_FUNCS) {
-                        modResult = sc.DAMAGE_MODIFIER_FUNCS[modFunc](e, h, o, i, j, this);
+                        modResult = sc.DAMAGE_MODIFIER_FUNCS[modFunc](e, k, o, i, j, this);
                         e = modResult.attackInfo;
-                        h = modResult.damageFactor;
+                        k = modResult.damageFactor;
                         modResult.applyDamageCallback && callbacks.push(modResult.applyDamageCallback);
                     }
                 }
