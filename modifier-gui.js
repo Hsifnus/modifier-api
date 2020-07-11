@@ -4,46 +4,50 @@ ig.module("game.feature.combat.model.modifier-gui").requires(
     "game.feature.menu.gui.status.status-misc").defines(function() {
     var a = Vec2.create();
     var b = ["#8bb5ff", "#ba0000", "#0036d0", "#a121bc", "#00994c", "#c7c7c7"];
-    sc.SimpleStatusDisplay = sc.SimpleStatusDisplay.extend({
-        init: function(a, b, c, d, i, j, k, l, x, y, z) {
-            if (x) {
-                this.newGfx = new ig.Image(x);
-                this.offX = y || 0;
-                this.offY = z || 0;
+    sc.SimpleStatusDisplay.inject({
+        init: function(a, b, c, d, i, j, k, l, altGfxPath, offX, offY) {
+            if (altGfxPath) {
+                this.altGfx = new ig.Image(altGfxPath);
+                this.offX = offX || 0;
+                this.offY = offY || 0;
             }
             this.parent(a, b, c, d, i, j, k, l);
         },
-        updateDrawables: function(b) {
+        updateDrawables: function(display) {
             var c = 0,
                 d = this.lineID * 12;
             if (this.noPercentMode) {
                 a.x = this.simpleMode ? 144 : 0;
                 a.y = (this.simpleMode ? 408 : 329) + d;
-                b.addGfx(this.gfx, 0, 0, a.x, a.y, 72, 11);
-                b.addGfx(this.gfx, 72, 0, a.x + 11, a.y, 9, 11);
-                b.addGfx(this.gfx, 81, 10, a.x + 81, a.y, this.simpleMode ? 46 : 89, 11)
-            } else b.addGfx(this.gfx, 0, 0, this.simpleMode ? 144 : 0, (this.simpleMode ? 408 : 329) + d, this.width, 11);
+                display.addGfx(this.gfx, 0, 0, a.x, a.y, 72, 11);
+                display.addGfx(this.gfx, 72, 0, a.x + 11, a.y, 9, 11);
+                display.addGfx(this.gfx, 81, 10, a.x + 81, a.y, this.simpleMode ? 46 : 89, 11)
+            } else display.addGfx(this.gfx, 0, 0, this.simpleMode ? 144 : 0, (this.simpleMode ? 408 : 329) + d, this.width, 11);
             if (this.offX === 0 || this.offX) {
-                b.addGfx(this.newGfx, 0, 0, this.offX, this.offY, sc.MODIFIER_ICON_DRAW.SIZE, sc.MODIFIER_ICON_DRAW.SIZE)
+                // Fetch icon from (offX, offY) in custom modifier sheet
+                display.addGfx(this.altGfx, 0, 0, this.offX, this.offY, sc.MODIFIER_ICON_DRAW.SIZE, sc.MODIFIER_ICON_DRAW.SIZE)
             } else {
                 c = this.iconIndex.x * (sc.MODIFIER_ICON_DRAW.SIZE + 1);
                 d = this.iconIndex.y * (sc.MODIFIER_ICON_DRAW.SIZE + 1);
-                b.addGfx(this.gfx, 0, 0, sc.MODIFIER_ICON_DRAW.X + c, sc.MODIFIER_ICON_DRAW.Y + d, sc.MODIFIER_ICON_DRAW.SIZE, sc.MODIFIER_ICON_DRAW.SIZE)
+                display.addGfx(this.gfx,
+                    0, 0, sc.MODIFIER_ICON_DRAW.X + c, sc.MODIFIER_ICON_DRAW.Y + d, sc.MODIFIER_ICON_DRAW.SIZE, sc.MODIFIER_ICON_DRAW.SIZE)
             }
         }
     });
     sc.ItemEquipModifier.inject({
         _createStatusDisplay: function(b, a, d, c, e, f, g, h, i, j) {
-            var x = "",
-                y = 0,
-                z = 0
+            var altSheet = "",
+                offX = 0,
+                offY = 0
+            // Fetch required SimpleStatusDisplay information from modifier if said info is present
             if (d.length > 9 && d.slice(0, 9) == "modifier." && e == -1) {
                 var modifier = sc.MODIFIERS[d.slice(9)];
-                x = modifier.altSheet,
-                    y = modifier.offX,
-                    z = modifier.offY;
+                altSheet = modifier.altSheet,
+                    offX = modifier.offX,
+                    offY = modifier.offY;
             }
-            d = new sc.SimpleStatusDisplay(ig.lang.get("sc.gui.menu.equip." + d), c, e, f, g, true, 126, h, x, y, z);
+            // Make new SimpleStatusDisplay with custom modifier arguments
+            d = new sc.SimpleStatusDisplay(ig.lang.get("sc.gui.menu.equip." + d), c, e, f, g, true, 126, h, altSheet, offX, offY);
             d.setPos(b, a);
             d.annotation = {
                 type: "INFO",
@@ -73,16 +77,18 @@ ig.module("game.feature.combat.model.modifier-gui").requires(
     };
     sc.EquipStatusContainer.inject({
         _createStatusDisplay: function(a, b, c, e, f, g, h, i, j, k, l, o) {
-            var x = "",
-                y = 0,
-                z = 0
+            var altSheet = "",
+                offX = 0,
+                offY = 0;
+            // Fetch required SimpleStatusDisplay information from modifier if said info is present
             if (c.length > 9 && c.slice(0, 9) == "modifier." && f == -1) {
                 var modifier = sc.MODIFIERS[c.slice(9)];
-                x = modifier.altSheet;
-                y = modifier.offX;
-                z = modifier.offY;
+                altSheet = modifier.altSheet,
+                    offX = modifier.offX,
+                    offY = modifier.offY;
             }
-            g = new sc.SimpleStatusDisplay(ig.lang.get("sc.gui.menu.equip." + c), e, f, g, h, null, null, j, x, y, z);
+            // Make new SimpleStatusDisplay with custom modifier arguments
+            g = new sc.SimpleStatusDisplay(ig.lang.get("sc.gui.menu.equip." + c), e, f, g, h, null, null, j, altSheet, offX, offY);
             g.setPos(a, b);
             g.setCurrentValue(i);
             if (c == "res") {
